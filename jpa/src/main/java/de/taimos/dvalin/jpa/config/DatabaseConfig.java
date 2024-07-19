@@ -25,9 +25,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.jdbc.datasource.init.DataSourceInitializer;
-import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.Database;
@@ -50,10 +47,6 @@ public class DatabaseConfig {
 
     @Value("${ds.showsql:false}")
     private boolean showSQL;
-
-    @Value("${ds.demodata:false}")
-    private boolean demodata;
-
 
     @Bean
     @DependsOn("liquibase")
@@ -84,18 +77,4 @@ public class DatabaseConfig {
         liquibase.setChangeLog("classpath:liquibase/changelog.xml");
         return liquibase;
     }
-
-
-    @Bean
-    public DataSourceInitializer dataSourceInitializer(DataSource dataSource) {
-        DataSourceInitializer initializer = new DataSourceInitializer();
-        initializer.setDataSource(dataSource);
-        initializer.setEnabled(this.demodata);
-        ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
-        populator.addScript(new ClassPathResource("sql/demodata_" + this.dsType.toString() + ".sql"));
-        initializer.setDatabasePopulator(populator);
-        return initializer;
-    }
-
-
 }

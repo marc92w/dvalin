@@ -9,7 +9,10 @@ The following settings are possible:
 * `ds.type` - {MYSQL|POSTGRESQL|HSQL} type of the database
 * `ds.package` - root package of your entities (path notation with /)
 * `ds.showsql` - {true|false} to log all SQL statements to the logger
-* `ds.demodata` - {true|false} to insert data from the file `sql/demodata_${ds.type}.sql` on startup
+
+* `ds.demodata` - {true|false} to insert data from sql scripts on startup
+* `ds.demodata.encoding` - encoding of sql scripts as String (default: `UTF-8`)
+* `ds.demodata.location` - location pattern for sql scripts (default: `classpath*:sql/demodata_*${ds.type}.sql`)
 
 For MySQL the following extra setting are possible:
 
